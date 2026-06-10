@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "ActivityserviceApplication",
+            "request": "launch",
+            "mainClass": "com.fitness.activityservice.ActivityserviceApplication",
+            "projectName": ""
+        },
+        {
+            "type": "java",
             "name": "Current File",
             "request": "launch",
             "mainClass": "${file}"
