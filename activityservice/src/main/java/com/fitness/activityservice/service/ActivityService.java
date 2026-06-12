@@ -1,11 +1,14 @@
 package com.fitness.activityservice.service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.stereotype.Service;
 
 import com.fitness.activityservice.dto.ActivityRequest;
 import com.fitness.activityservice.dto.ActivityResponse;
 import com.fitness.activityservice.model.Activity;
-import com.fitness.activityservice.repository.ActivityRespository;
+import com.fitness.activityservice.repository.ActivityRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -13,7 +16,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ActivityService {
 
-    private final ActivityRespository activityRespository;
+    private final ActivityRepository activityRepository;
 
     public ActivityResponse trackActivity(ActivityRequest activityRequest) {
         Activity activity = new Activity();
@@ -24,18 +27,34 @@ public class ActivityService {
         activity.setStartTime(activityRequest.getStartTime());
         activity.setAdditionalMetric(activityRequest.getAdditionalMetric());
 
-        Activity savedActivity = activityRespository.save(activity);
+        Activity savedActivity = activityRepository.save(activity);
 
+        return mapToResponse(savedActivity);
+    }
+
+    public List<ActivityResponse> getUserActivities(String userId) {
+
+        List<Activity> activities = activityRepository.findByUserId(userId);  
+        
+        return activities.stream().map(this::mapToResponse).collect(Collectors.toList());
+    }
+
+    public ActivityResponse getActivity(String activityId) {
+        return activityRepository.findById(activityId).map(this::mapToResponse).orElseThrow(() -> new RuntimeException("Actvity not found"));
+    }
+
+    private ActivityResponse mapToResponse(Activity activity) {
         ActivityResponse activityResponse = new ActivityResponse();
-        activityResponse.setId(savedActivity.getId());
-        activityResponse.setUserId(savedActivity.getUserId());
-        activityResponse.setType(savedActivity.getType());
-        activityResponse.setDuration(savedActivity.getDuration());
-        activityResponse.setStartTime(savedActivity.getStartTime());
-        activityResponse.setCaloriesBurned(savedActivity.getCaloriesBurned());
-        activityResponse.setAdditionalMetric(savedActivity.getAdditionalMetric());
-        activityResponse.setCreatedAt(savedActivity.getCreatedAt());
-        activityResponse.setUpdatedAt(savedActivity.getUpdatedAt());
+
+        activityResponse.setId(activity.getId());
+        activityResponse.setUserId(activity.getUserId());
+        activityResponse.setType(activity.getType());
+        activityResponse.setDuration(activity.getDuration());
+        activityResponse.setStartTime(activity.getStartTime());
+        activityResponse.setCaloriesBurned(activity.getCaloriesBurned());
+        activityResponse.setAdditionalMetric(activity.getAdditionalMetric());
+        activityResponse.setCreatedAt(activity.getCreatedAt());
+        activityResponse.setUpdatedAt(activity.getUpdatedAt());
 
         return activityResponse;
     }
