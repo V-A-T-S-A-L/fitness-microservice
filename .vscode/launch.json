@@ -6,6 +6,20 @@
     "configurations": [
         {
             "type": "java",
+            "name": "EurekaApplication",
+            "request": "launch",
+            "mainClass": "com.server.eureka.EurekaApplication",
+            "projectName": "eureka"
+        },
+        {
+            "type": "java",
+            "name": "EurekaApplication",
+            "request": "launch",
+            "mainClass": "EurekaApplication",
+            "projectName": "fitness-microservice_69ffc57"
+        },
+        {
+            "type": "java",
             "name": "ActivityserviceApplication",
             "request": "launch",
             "mainClass": "com.fitness.activityservice.ActivityserviceApplication",

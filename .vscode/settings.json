@@ -1,7 +1,8 @@
 {
     "java.configuration.updateBuildConfiguration": "interactive",
     "java.project.sourcePaths": [
-        "activityservice"
+        "activityservice",
+        "eureka/src/main/java/com/server/eureka"
     ],
     "java.project.explorer.showNonJavaResources": false
 }
